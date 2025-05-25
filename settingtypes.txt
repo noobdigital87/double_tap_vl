@@ -1,1 +1,8 @@
 
+double_tap_vl.set_speed (Set speed) float 1.8
+double_tap_vl.tap_interval (Tap interval) float 0.5
+
+[Advanced]
+double_tap_vl.detection_step (Detection step interval) float 0.1
+double_tap_vl.sprint_step (Sprint step interval) float 0.2
+double_tap_vl.drain_step (Drain step interval) float 0.2
