@@ -1,9 +1,9 @@
 local your_mod_name = core.get_current_modname()
 
-local api = dg_sprint_core.v2
+local api = dg_sprint_core
 
 local settings = {
-    	aux1 = true,
+    	aux1 = false,
     	double_tap = true,
     	tap_interval = tonumber(core.settings:get(your_mod_name .. ".tap_interval")) or 0.5,
 }
