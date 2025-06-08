@@ -20,14 +20,36 @@ api.register_server_step(your_mod_name, "DETECT", tonumber(core.settings:get(you
 end)
 
 api.register_server_step(your_mod_name, "SPRINT", tonumber(core.settings:get(your_mod_name .. ".sprint_step")) or 0.2, function(player, state, dtime)
+	if not settings.fov then
+		settings.fov_value = 0
+	end
 
-    if not settings.fov then
-        settings.fov_value = 0
-    end
-
-    if state.detected then
-        local sprint_settings = {speed = settings.speed, jump = settings.jump}
-        api.set_sprint(your_mod_name, player, state.detected, sprint_settings)
+	if state.detected then
+		local pos = player:get_pos()
+		api.set_sprint(your_mod_name, player, state.detected, sprint_settings)
+		local playerNode = core.get_node({x=pos.x, y=pos.y-1, z=pos.z})
+		local def = core.registered_nodes[playerNode.name]
+		if def and def.walkable then
+			core.add_particlespawner({
+				amount = math.random(1, 2),
+				time = 1,
+				minpos = {x=-0.5, y=0.1, z=-0.5},
+				maxpos = {x=0.5, y=0.1, z=0.5},
+				minvel = {x=0, y=5, z=0},
+				maxvel = {x=0, y=5, z=0},
+				minacc = {x=0, y=-13, z=0},
+				maxacc = {x=0, y=-13, z=0},
+				minexptime = 0.1,
+				maxexptime = 1,
+				minsize = 0.5,
+				maxsize = 1.5,
+				collisiondetection = true,
+				attached = player,
+				vertical = false,
+				node = playerNode,
+				node_tile = mcl_sprint.get_top_node_tile(playerNode.param2, def.paramtype2), -- luacheck: ignore
+			})
+		end
     else
         local sprint_settings = {speed = settings.speed, jump = settings.jump}
         api.set_sprint(your_mod_name, player, state.detected, sprint_settings)
