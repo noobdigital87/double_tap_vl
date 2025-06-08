@@ -26,6 +26,7 @@ api.register_server_step(your_mod_name, "SPRINT", tonumber(core.settings:get(you
 
 	if state.detected then
 		local pos = player:get_pos()
+		local sprint_settings = {speed = settings.speed, jump = settings.jump}
 		api.set_sprint(your_mod_name, player, state.detected, sprint_settings)
 		local playerNode = core.get_node({x=pos.x, y=pos.y-1, z=pos.z})
 		local def = core.registered_nodes[playerNode.name]
